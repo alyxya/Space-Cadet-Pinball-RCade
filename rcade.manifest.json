@@ -1,0 +1,16 @@
+{
+  "$schema": "https://rcade.recurse.com/manifest.schema.json",
+  "name": "space-cadet-pinball",
+  "display_name": "3D Pinball for Windows – Space Cadet",
+  "description": "",
+  "visibility": "public",
+  "authors": {
+    "display_name": " "
+  },
+  "dependencies": [
+    {
+      "name": "@rcade/input-classic",
+      "version": "1.0.0"
+    }
+  ]
+}
