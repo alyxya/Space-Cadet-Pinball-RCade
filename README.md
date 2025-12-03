@@ -1,6 +1,8 @@
 # 3D Pinball for Windows – Space Cadet
 
+## Credits
 
+- Original decompilation: [alula/SpaceCadetPinball](https://github.com/alula/SpaceCadetPinball)
 
 ## About RCade
 
