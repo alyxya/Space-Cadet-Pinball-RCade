@@ -41,6 +41,28 @@ canvas.addEventListener('webglcontextlost', function(e) {
   e.preventDefault()
 }, false)
 
+// Scale canvas to fit viewport while maintaining aspect ratio
+function scaleCanvas() {
+  const gameWidth = canvas.width
+  const gameHeight = canvas.height
+  if (gameWidth === 0 || gameHeight === 0) return
+
+  const viewportWidth = window.innerWidth
+  const viewportHeight = window.innerHeight
+
+  const scaleX = viewportWidth / gameWidth
+  const scaleY = viewportHeight / gameHeight
+  const scale = Math.min(scaleX, scaleY)
+
+  canvas.style.width = (gameWidth * scale) + 'px'
+  canvas.style.height = (gameHeight * scale) + 'px'
+}
+
+// Watch for canvas size changes and rescale
+const resizeObserver = new ResizeObserver(() => scaleCanvas())
+resizeObserver.observe(canvas)
+window.addEventListener('resize', scaleCanvas)
+
 // Load the Space Cadet Pinball script
 const script = document.createElement('script')
 script.src = '/SpaceCadetPinball.js'
