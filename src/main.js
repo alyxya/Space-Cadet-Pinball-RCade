@@ -9,13 +9,17 @@ const statusElement = document.getElementById('status')
 // P2 B -> '/' (right flipper)
 // P1 B -> 'x' (left nudge)
 // P2 A -> '.' (right nudge)
-// P2 Down -> ' ' (space - launch ball)
+// P1/P2 Down -> ' ' (space - launch ball)
+// P1/P2 Up -> up arrow
 const controlMap = [
   { control: 'P1_A', key: 'z', code: 'KeyZ', keyCode: 90 },
   { control: 'P2_B', key: '/', code: 'Slash', keyCode: 191 },
   { control: 'P1_B', key: 'x', code: 'KeyX', keyCode: 88 },
   { control: 'P2_A', key: '.', code: 'Period', keyCode: 190 },
-  { control: 'P2_down', key: ' ', code: 'Space', keyCode: 32 }
+  { control: 'P1_down', key: ' ', code: 'Space', keyCode: 32 },
+  { control: 'P2_down', key: ' ', code: 'Space', keyCode: 32 },
+  { control: 'P1_up', key: 'ArrowUp', code: 'ArrowUp', keyCode: 38 },
+  { control: 'P2_up', key: 'ArrowUp', code: 'ArrowUp', keyCode: 38 }
 ]
 
 // Track pressed state to detect changes
@@ -41,7 +45,10 @@ function getControlState(control) {
   if (control === 'P1_B') return PLAYER_1.B
   if (control === 'P2_A') return PLAYER_2.A
   if (control === 'P2_B') return PLAYER_2.B
+  if (control === 'P1_down') return PLAYER_1.DPAD.down
   if (control === 'P2_down') return PLAYER_2.DPAD.down
+  if (control === 'P1_up') return PLAYER_1.DPAD.up
+  if (control === 'P2_up') return PLAYER_2.DPAD.up
   return false
 }
 
