@@ -1,7 +1,68 @@
 import './style.css'
+import { PLAYER_1 } from '@rcade/plugin-input-classic'
 
 const canvas = document.getElementById('canvas')
 const statusElement = document.getElementById('status')
+
+// RCade control to keyboard mapping
+// A -> 'z' (left flipper)
+// B -> '/' (right flipper)
+// Down -> ' ' (space - launch ball)
+// Left -> 'x' (left nudge)
+// Right -> '.' (right nudge)
+const controlMap = [
+  { control: 'A', key: 'z', code: 'KeyZ', keyCode: 90 },
+  { control: 'B', key: '/', code: 'Slash', keyCode: 191 },
+  { control: 'down', key: ' ', code: 'Space', keyCode: 32 },
+  { control: 'left', key: 'x', code: 'KeyX', keyCode: 88 },
+  { control: 'right', key: '.', code: 'Period', keyCode: 190 }
+]
+
+// Track pressed state to detect changes
+const pressedState = {
+  A: false,
+  B: false,
+  down: false,
+  left: false,
+  right: false
+}
+
+function dispatchKey(mapping, type) {
+  const event = new KeyboardEvent(type, {
+    key: mapping.key,
+    code: mapping.code,
+    keyCode: mapping.keyCode,
+    which: mapping.keyCode,
+    bubbles: true,
+    cancelable: true
+  })
+  document.dispatchEvent(event)
+}
+
+function getControlState(control) {
+  if (control === 'A') return PLAYER_1.A
+  if (control === 'B') return PLAYER_1.B
+  if (control === 'down') return PLAYER_1.DPAD.down
+  if (control === 'left') return PLAYER_1.DPAD.left
+  if (control === 'right') return PLAYER_1.DPAD.right
+  return false
+}
+
+function updateControls() {
+  for (const mapping of controlMap) {
+    const isPressed = getControlState(mapping.control)
+    if (isPressed && !pressedState[mapping.control]) {
+      dispatchKey(mapping, 'keydown')
+    } else if (!isPressed && pressedState[mapping.control]) {
+      dispatchKey(mapping, 'keyup')
+    }
+    pressedState[mapping.control] = isPressed
+  }
+
+  requestAnimationFrame(updateControls)
+}
+
+updateControls()
 
 // Set up the Emscripten Module
 window.Module = {
