@@ -41,21 +41,22 @@ canvas.addEventListener('webglcontextlost', function(e) {
   e.preventDefault()
 }, false)
 
-// Scale canvas to fit viewport while maintaining aspect ratio
+// RCade display dimensions
+const RCADE_WIDTH = 336
+const RCADE_HEIGHT = 262
+
+// Scale canvas to fit RCade display
 function scaleCanvas() {
   const gameWidth = canvas.width
   const gameHeight = canvas.height
   if (gameWidth === 0 || gameHeight === 0) return
 
-  const viewportWidth = window.innerWidth
-  const viewportHeight = window.innerHeight
-
-  const scaleX = viewportWidth / gameWidth
-  const scaleY = viewportHeight / gameHeight
+  const scaleX = RCADE_WIDTH / gameWidth
+  const scaleY = RCADE_HEIGHT / gameHeight
   const scale = Math.min(scaleX, scaleY)
 
-  canvas.style.width = (gameWidth * scale) + 'px'
-  canvas.style.height = (gameHeight * scale) + 'px'
+  canvas.style.transformOrigin = 'top left'
+  canvas.style.transform = `scale(${scale})`
 }
 
 // Watch for canvas size changes and rescale
